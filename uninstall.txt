@@ -1,0 +1,16 @@
+#dpkg -l | grep -i docker
+#sudo apt-get remove docker docker-engine docker-ce docker-ce-cli docker.io
+#sudo apt-get purge docker-engine
+#sudo apt-get autoremove --purge docker-engine
+#rm -rf /var/lib/docker
+#sudo rm -rf /var/run/docker.sock
+#sudo rm /etc/apparmor.d/docker
+#sudo rm -rf /var/lib/docker /etc/docker
+#sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce 
+#sudo apt-get purge docker-swarm
+#sudo apt-get purge docker-compose
+#docker system prune
+#docker-compose down -v --rmi all --remove-orphans
+#sudo apt-get purge docker-compose
+#sudo apt-get purge --auto-remove docker-compose
+sudo rm -rf /var/run/docker.sock
