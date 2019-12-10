@@ -1,0 +1,12 @@
+version: "3.7"
+networks:
+  adminer-network:
+    driver: overlay
+services:
+ adminer:
+    ports:
+      - 8081:8080
+    image: adminer
+    deploy:
+      placement:
+        constraints: [node.role == manager]
