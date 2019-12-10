@@ -1,0 +1,57 @@
+version: "3.1"
+
+networks:
+  konga-network:
+    driver: overlay
+
+volumes:
+  konga_db:
+  konga_data:
+
+services:
+  konga-database:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: konga
+      POSTGRES_DB: konga
+    networks:
+      - konga-network
+    volumes:
+      - konga_db:/var/lib/postgresql/data
+    restart: always
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      
+  konga-migration:
+    image: pantsel/konga
+    command: "-c prepare -a postgres -u postgresql://konga@konga-database:5432/konga_db"
+    depends_on:
+      - konga-database
+    restart: on-failure
+    networks:
+      konga-network:
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      
+  konga:
+    image: pantsel/konga
+    environment:
+      NODE_ENV: production
+      TOKEN_SECRET: km1GUr4RkcQD7DewhJPNXrCuZwcKmqjb
+    volumes:
+      - konga_data:/app/kongadata
+    restart: always
+    ports:
+      - "1337:1337"
+    tty: true
+    stdin_open: true
+    depends_on:
+      - koga-database
+      - konga-migration
+    networks:
+      konga-network:
+    deploy:
+      placement:
+        constraints: [node.role == manager]
