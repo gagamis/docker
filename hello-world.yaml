@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  hello:
+    #image: crccheck/hello-world
+    image: tutum/hello-world:latest
+    ports:
+      - "8000:8000"
+    networks:
+      - 
